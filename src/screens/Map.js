@@ -1,8 +1,8 @@
-import {View, Text, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {View, Text, PermissionsAndroid} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import {PermissionsAndroid} from 'react-native';
+import LoadingSpinner from '../component/Loading'; // Adjust the path if needed
 import BankSampah from '../utils/marker.json';
 
 const Map = () => {
@@ -46,9 +46,8 @@ const Map = () => {
 
   return (
     <View style={{flex: 1, marginBottom: 60}}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : location ? (
+      <LoadingSpinner visible={loading} />
+      {!loading && location ? (
         <MapView
           style={{flex: 1}}
           zoomControlEnabled={true}
@@ -67,7 +66,7 @@ const Map = () => {
           ))}
         </MapView>
       ) : (
-        <Text>Lokasi tidak dapat ditemukan</Text> // Pesan jika lokasi tidak ditemukan
+        !loading && <Text>Lokasi tidak dapat ditemukan</Text> // Pesan jika lokasi tidak ditemukan
       )}
     </View>
   );

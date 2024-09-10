@@ -11,10 +11,11 @@ import PraCamerapage from './src/screens/PraCamera';
 import Mappage from './src/screens/Map';
 import DetailPage from './src/screens/Detail';
 import LoginPage from './src/screens/Login';
-import RegisterPage from './src/screens/Resgister';
+import RegisterPage from './src/screens/Register';
 import SplashPage from './src/screens/Splash';
 import Camerapage from './src/screens/TakeCamera';
 import PredictPage from './src/screens/Predict';
+import Profilpage from './src/screens/Profil';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -94,11 +95,13 @@ const AppNavigator = () => {
           <Stack.Screen name="Detail" component={DetailPage} />
           <Stack.Screen name="TakeCamera" component={Camerapage} />
           <Stack.Screen name="Predict" component={PredictPage} />
+          <Stack.Screen name="Profil" component={Profilpage} />
         </>
       )}
     </Stack.Navigator>
   );
 };
+
 const App = () => {
   return (
     <AuthProvider>

@@ -4,7 +4,7 @@ import React from 'react';
 import HeadLogin from '../component/HeadLogin';
 import CardRegis from '../component/CardRegis';
 
-const Resgister = () => {
+const Register = () => {
   return (
     <View>
       <HeadLogin label={'Daftar'} />
@@ -13,4 +13,4 @@ const Resgister = () => {
   );
 };
 
-export default Resgister;
+export default Register;

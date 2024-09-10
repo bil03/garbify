@@ -2,13 +2,14 @@ import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 // import {useNavigation} from '@react-navigation/native';
 
-const BoxImage = ({iconSource, label, style, onPress}) => {
+const BoxImage = ({iconSource, label, style, onPress, id}) => {
   // const navigation = useNavigation();
   return (
     <View style={[styles.container, style && style.container]}>
       <TouchableOpacity
         style={[styles.box, style && style.box]}
-        onPress={onPress}>
+        onPress={onPress}
+        id={id}>
         <Image source={iconSource} style={styles.icon} />
       </TouchableOpacity>
       <Text style={[styles.text, style && style.text]}>{label}</Text>

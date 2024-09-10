@@ -2,24 +2,16 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {Firebase_Auth} from './../../config/Firebase';
+import {useAuth} from '../Hooks/auth';
 
 const Welcome = () => {
-  const [userName, setUserName] = useState('Loading...');
+  const {userData, loading} = useAuth();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const currentUser = Firebase_Auth.currentUser;
-      if (currentUser) {
-        const name = currentUser.displayName || currentUser.name || 'User';
-        setUserName(name);
-        console.log('User detected:', name);
-      } else {
-        console.log('No user is currently signed in.');
-        setUserName('User');
-      }
-    };
-    checkAuth();
-  }, []);
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  const userName = userData ? userData.nama : 'User';
 
   return (
     <View style={styles.container}>

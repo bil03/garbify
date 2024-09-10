@@ -24,17 +24,23 @@ const Predict = () => {
     <View style={styles.container}>
       <GradientBackground style={styles.gradientBackground}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-back-outline" size={30} color="white" />
+          <Icon name="chevron-back-outline" size={25} color="white" />
         </TouchableOpacity>
         <Text style={styles.text}>Hasil Identifikasi</Text>
       </GradientBackground>
-
       {imageUrl ? (
         <Image source={{uri: imageUrl}} style={styles.image} />
       ) : (
         <Text style={styles.noResultText}>No image available</Text>
       )}
-
+      <Text style={styles.resultText}>
+        Hasil Identifikasi sampah recycle di gambar :
+      </Text>
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText3}>Kategori</Text>
+        <Text style={styles.resultText3}>tipe sampah</Text>
+        <Text style={styles.resultText3}>Daur ulang</Text>
+      </View>
       {resultData.length > 0 ? (
         <FlatList
           data={resultData}
@@ -70,6 +76,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
+  },
+  resultText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    alignSelf: 'flex-start',
+    marginLeft: 20,
+  },
+  resultContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '80%',
+  },
+  resultText3: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+    marginHorizontal: 10,
   },
   title: {
     fontSize: 24,
@@ -125,7 +151,7 @@ const styles = StyleSheet.create({
   },
   gradientBackground: {
     width: '100%',
-    height: 70,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -133,11 +159,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Poppins',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
-    right: 80,
+    right: 100,
   },
 });
 

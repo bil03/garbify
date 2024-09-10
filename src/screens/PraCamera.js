@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  ActivityIndicator, // Import ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
+import {Firebase_Auth} from '../../config/Firebase';
+import LoadingSpinner from '../component/Loading'; // Import the custom spinner
 
 const PraCamera = () => {
   const navigation = useNavigation();
@@ -66,11 +67,19 @@ const PraCamera = () => {
         name: 'image.jpg',
       });
 
+      // Ambil token dari Firebase Authentication
+      const user = Firebase_Auth.currentUser;
+      if (!user) {
+        Alert.alert('User is not authenticated');
+      }
+      const token = await user.getIdToken(); // Ambil token dari Firebase Authentication
+
       const config = {
         method: 'post',
-        url: 'https://garbify-webservice-989262154899.asia-southeast2.run.app/models/predict',
+        url: 'https://garbify-api-989262154899.asia-southeast2.run.app/models/predict',
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`, // Tambahkan token ke header
         },
         data: formData,
       };
@@ -78,7 +87,10 @@ const PraCamera = () => {
       const response = await axios.request(config);
 
       console.log('API result:', JSON.stringify(response.data));
-      navigation.navigate('Predict', {result: response.data, imageUrl: image});
+      navigation.navigate('Predict', {
+        result: response.data,
+        imageUrl: image,
+      });
     } catch (error) {
       console.error('Error analyzing image:', error);
       Alert.alert('Failed to analyze image', `Error: ${error.message}`);
@@ -97,14 +109,6 @@ const PraCamera = () => {
         )}
       </View>
 
-      {loading && (
-        <ActivityIndicator
-          size="large"
-          color="#4CAF50"
-          style={styles.loadingIndicator}
-        />
-      )}
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={openGallery}>
           <Text style={styles.buttonText}>GALLERY</Text>
@@ -119,6 +123,9 @@ const PraCamera = () => {
       <TouchableOpacity style={styles.analyzeButton} onPress={analyzeImage}>
         <Text style={styles.analyzeButtonText}>ANALYZE</Text>
       </TouchableOpacity>
+
+      {/* Include the custom loading spinner */}
+      <LoadingSpinner visible={loading} />
     </View>
   );
 };
@@ -138,9 +145,6 @@ const styles = StyleSheet.create({
     width: 350,
     height: 350,
     resizeMode: 'contain',
-  },
-  loadingIndicator: {
-    marginTop: 20, // Mengatur jarak animasi loading dari elemen di sekitarnya
   },
   buttonContainer: {
     flexDirection: 'row',
